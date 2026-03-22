@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @unique @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("orders")
+}
