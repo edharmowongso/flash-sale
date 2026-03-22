@@ -31,7 +31,7 @@ export class PurchaseItemUseCase {
       );
     }
 
-    const outcome = await this.saleCacheRepository.atomicPurchase(userId);
+    const outcome = await this.saleCacheRepository.processPurchase(userId);
 
     if (outcome === "already_purchased") {
       throw new ConflictError("You have already purchased this item");
