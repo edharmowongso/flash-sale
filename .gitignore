@@ -1,0 +1,18 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+coverage
+
+# Cache
+.turbo
+*.tsbuildinfo
+
+# Environment
+.env
+
+# OS
+.DS_Store
