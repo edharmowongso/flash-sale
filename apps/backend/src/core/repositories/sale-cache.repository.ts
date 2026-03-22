@@ -1,4 +1,4 @@
-export type PurchaseResult = "success" | "already_purchased" | "sold_out";
+import type { PurchaseResult } from "../../config/constants.js";
 
 export interface ISaleCacheRepository {
   initialize(stock: number): Promise<void>;

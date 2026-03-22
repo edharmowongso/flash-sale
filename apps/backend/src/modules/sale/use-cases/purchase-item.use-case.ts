@@ -1,5 +1,6 @@
 import { Queue } from "bullmq";
 import { SaleEntity } from "../../../core/entities/sale.entity.js";
+import { PurchaseResult } from "../../../config/constants.js";
 import type { ISaleCacheRepository } from "../../../core/repositories/sale-cache.repository.js";
 import {
   OrderEventType,
@@ -31,13 +32,12 @@ export class PurchaseItemUseCase {
       );
     }
 
-    const outcome = await this.saleCacheRepository.processPurchase(userId);
-
-    if (outcome === "already_purchased") {
+    const result = await this.saleCacheRepository.processPurchase(userId);
+    if (result === PurchaseResult.ALREADY_PURCHASED) {
       throw new ConflictError("You have already purchased this item");
     }
 
-    if (outcome === "sold_out") {
+    if (result === PurchaseResult.SOLD_OUT) {
       throw new GoneError("Sorry, the item is sold out");
     }
 

@@ -1,8 +1,6 @@
 import { createClient } from "redis";
-import type {
-  ISaleCacheRepository,
-  PurchaseResult,
-} from "../../core/repositories/sale-cache.repository.js";
+import { PurchaseResult } from "../../config/constants.js";
+import type { ISaleCacheRepository } from "../../core/repositories/sale-cache.repository.js";
 
 type RedisClient = ReturnType<typeof createClient>;
 
@@ -46,9 +44,9 @@ export class SaleCacheService implements ISaleCacheRepository {
 
     const code = result as number;
 
-    if (code === -1) return "already_purchased";
-    if (code === -2) return "sold_out";
+    if (code === -1) return PurchaseResult.ALREADY_PURCHASED;
+    if (code === -2) return PurchaseResult.SOLD_OUT;
 
-    return "success";
+    return PurchaseResult.SUCCESS;
   }
 }
