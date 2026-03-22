@@ -1,0 +1,20 @@
+# Lightweight one-shot migration runner.
+# Installs only the database package (with prisma CLI) and runs migrate deploy.
+FROM node:20-alpine
+
+RUN apk add --no-cache openssl
+RUN npm install -g pnpm@9.15.0
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/database/package.json ./packages/database/
+
+# Install the database package including its devDependencies (prisma CLI)
+RUN pnpm install --frozen-lockfile --filter @flash-sale/database
+
+# Copy the migration history and schema (no src needed — just prisma/)
+COPY packages/database/prisma ./packages/database/prisma
+
+# Push schema directly to DB (no migration files needed for first-time setup)
+# For production with committed migration files, switch to: pnpm --filter @flash-sale/database db:migrate
+CMD ["pnpm", "--filter", "@flash-sale/database", "db:push"]
