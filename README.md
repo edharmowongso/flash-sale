@@ -59,8 +59,6 @@ erDiagram
   - **PostgreSQL** `UNIQUE` on `user_id` — fallback safety net on DB level
 - `user_id` is always **normalized to lowercase** before storage and lookup to prevent case-variant duplicates (e.g. `XxxAnton` vs `xxxanton`)
 
-> **Production note:** Sale configuration (`start_time`, `end_time`, `stock`) would be stored in a `sales` table to support dynamic scheduling, multiple sale events, and admin management without requiring a redeployment. For this test, these values are provided via environment variables for simplicity.
-
 ---
 
 ## Design Choices & Trade-offs
