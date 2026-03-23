@@ -117,7 +117,7 @@ export default function App() {
           }}
           onKeyDown={(e) => e.key === "Enter" && handlePurchase()}
           maxLength={255}
-          disabled={purchaseState === "success"}
+          disabled={purchaseState === "loading"}
         />
         <button
           className={cn(
