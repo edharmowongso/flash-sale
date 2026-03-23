@@ -4,6 +4,21 @@ A high-throughput flash sale backend built to handle thousands of concurrent pur
 
 ---
 
+### System Architecture
+
+> Paste the code block into [mermaid.live](https://mermaid.live) to view it.
+
+```mermaid
+graph LR
+    Browser -->|HTTP REST| API["API Server\n(Fastify)"]
+    API -->|SADD / DECR Lua script| Redis
+    API -->|Enqueue order job| Redis
+    Redis -->|BullMQ job pickup| Worker["Order Worker\n(BullMQ)"]
+    Worker -->|INSERT orders| PostgreSQL
+```
+
+---
+
 ### Purchase Flow (Sequence Diagram)
 
 > Paste the code block into [mermaid.live](https://mermaid.live) to view it.
