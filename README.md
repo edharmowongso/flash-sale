@@ -11,7 +11,7 @@ A high-throughput flash sale backend built to handle thousands of concurrent pur
 ```mermaid
 graph LR
     Browser -->|HTTP REST| API["API Server\n(Fastify)"]
-    API -->|SADD / DECR Lua script| Redis
+    API -->|reserve stock & check duplicate| Redis
     API -->|Enqueue order job| Redis
     Redis -->|BullMQ job pickup| Worker["Order Worker\n(BullMQ)"]
     Worker -->|INSERT orders| PostgreSQL
@@ -158,7 +158,7 @@ flash-sale/
 │   │       │   ├── entities/          # SaleEntity (domain logic)
 │   │       │   └── repositories/      # ISaleCacheRepository (interface)
 │   │       ├── infrastructure/
-│   │       │   └── cache/             # SaleCacheService (Redis + Lua)
+│   │       │   └── cache/             # SaleCacheService (Redis implementation)
 │   │       └── modules/
 │   │           └── sale/
 │   │               ├── controllers/   # SaleController
